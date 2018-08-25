@@ -71,6 +71,9 @@ class AssetContainer {
             $assetUrl = \Config::get('theme.assetUrl', '');
         }
 
+        $unnecessary_path = \Config::get('theme.themeDir');
+        $path = str_replace("$unnecessary_path/", '', $path);
+
         // Using asset url, if available.
         if ($assetUrl)
         {
@@ -136,7 +139,7 @@ class AssetContainer {
         return $this->configAssetUrl($path, $secure);
     }
 
-    
+
     /**
      * Return asset absolute path with current theme path.
      *
@@ -211,20 +214,20 @@ class AssetContainer {
      * @param string $source
      * @param array  $dependencies
      * @param array  $attributes
-     * @return AssetContainer 
+     * @return AssetContainer
      */
     public function add($name, $source = null, $dependencies = array(), $attributes = array())
     {
         if(!is_array($name)) {
             if(!isset($source)) throw new \ErrorException("Missing argument 2 for Facuz\Theme\AssetContainer::add()", 1);
-            
+
             return $this->added($name, $source, $dependencies, $attributes);
         }
 
         foreach ($name as $array) {
             if(count($array) < 2) throw new \ErrorException("Missing value 2 of the array for Facuz\Theme\AssetContainer::add()", 1);
             $container = $array[0];
-            $source = $array[1]; 
+            $source = $array[1];
             $dependencies = isset($array[2]) ? $array[2] : [];
             $attributes = isset($array[3]) ? $array[3] : [];
 
@@ -535,7 +538,7 @@ class AssetContainer {
         if($result=='/public') $source = substr($source, 7);
 
         $source = url($source);
-        
+
         switch ($group)
         {
             case 'script' :
